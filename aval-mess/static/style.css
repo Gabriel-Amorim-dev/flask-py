@@ -1,12 +1,23 @@
 .text-introduction {
   font-size: 1.2rem;
-  margin-bottom: 12px;
-  line-height: 1.6;
+  gap: 1rem;
+  line-height: 2rem;
   text-align: justify;
   color: #f1f1f1;
   margin: 0 auto;
   padding: 0 1rem;
  }
+ .division{
+    background-color: rgba(10, 10, 10, 0.3);
+    display: row;
+    margin-bottom: 2rem;
+    gap: 20px;
+    justify-content: space-between;
+}
+.links{
+    text-align: center;
+    gap: 2rem;
+}
 .Codepythonspan{
     color: rgba(35, 101, 51, 1);
 }
