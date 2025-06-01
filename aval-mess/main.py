@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for, request, redirect
 import google.generativeai as genai
 from google.api_core import exceptions as core_exceptions
 
-genai.configure(api_key="AIzaSyAxebmiHnGCIE5LAh9mNbrPlJBJ5szrDyg")
+genai.configure(api_key="api_key")
 model = genai.GenerativeModel("gemini-1.5-pro")
 
 app = Flask(__name__)
