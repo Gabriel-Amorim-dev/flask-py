@@ -5,7 +5,7 @@ import requests
 import time
 
 
-gemini_api_key = "AIzaSyA7jenQElTQjIMDxchvr_fu-H4gdV2B7A4"
+gemini_api_key = "api-key"
 genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel("gemini-1.5-pro-latest")
 
