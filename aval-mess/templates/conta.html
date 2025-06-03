@@ -14,8 +14,16 @@
             Bem-vindo à sua página de usuário. Aqui você pode visualizar e atualizar informações do seu perfil.
         </p>
         <form method="POST" class="conta-form">
-        <textarea name="pergunta" rows="3" placeholder="Digite sua pergunta..." class="conta-textarea"></textarea
+        <textarea name="escreva" rows="3" placeholder="Fale sobre você..." class="conta-textarea"></textarea>
+        <button type="submit" class="conta-submit-btn">Enviar</button>
       </form>
+
+      {% if texto_usuario %}
+        <div class="sobre-user">
+          <strong class="sobre-mim" >Sobre Mim:</strong><br>
+          <p class="data-sobre">{{ texto_usuario }}</p>
+        </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

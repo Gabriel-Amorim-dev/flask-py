@@ -1,10 +1,13 @@
 import csv
 from flask import Flask, render_template, url_for, request, redirect
 import google.generativeai as genai
-from google.api_core import exceptions as core_exceptions
+import requests
+import time
 
-genai.configure(api_key="api_key")
-model = genai.GenerativeModel("gemini-1.5-pro")
+
+gemini_api_key = "AIzaSyA7jenQElTQjIMDxchvr_fu-H4gdV2B7A4"
+genai.configure(api_key=gemini_api_key)
+model = genai.GenerativeModel("gemini-1.5-pro-latest")
 
 app = Flask(__name__)
 
@@ -57,9 +60,19 @@ def bibliotecas():
 def datanalise():
     return render_template('dataanalise.html')
 
-@app.route('/conta')
+@app.route('/conta', methods=['GET', 'POST'])
 def conta():
-    return render_template('conta.html')
+    texto_usuario = None
+
+    if request.method == 'POST':
+        texto_usuario = request.form.get('escreva')
+        if texto_usuario and texto_usuario.strip() != "":
+            with open('bd_sobre_mim.csv', 'a', newline='', encoding='utf-8') as csvfile:
+                writer = csv.writer(csvfile, delimiter=';')
+                writer.writerow([texto_usuario])
+
+    return render_template('conta.html', texto_usuario=texto_usuario)
+
 
 rotas_validas = {
     "home": "/",
@@ -185,16 +198,32 @@ def trocar_termo():
     return redirect(url_for('glossario'))
 
 def gerar_resposta_gemini(prompt):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={gemini_api_key}"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = {
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": prompt
+                    }
+                ]
+            }
+        ]
+    }
+
     try:
-        resposta = model.generate_content(prompt)
-        return resposta.text
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        resposta_json = response.json()
+        return resposta_json["candidates"][0]["content"]["parts"][0]["text"]
 
-    except core_exceptions.ResourceExhausted as e:
-        if "429" in str(e):
+    except requests.exceptions.HTTPError as errh:
+        if response.status_code == 429:
             return "Você passou do limite de perguntas, espere um pouco..."
-        else:
-            return f"Erro da API: {e}"
-
+        return f"Erro HTTP: {errh}"
     except Exception as e:
         return f"Ocorreu um erro inesperado: {e}"
 

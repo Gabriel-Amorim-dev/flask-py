@@ -153,7 +153,14 @@
   border: 4px solid white;
   margin-bottom: 1rem;
   object-fit: cover;
+  transition: all 1s ease
 }
+
+.foto-perfil:hover {
+    transform: scale(1.2);
+    border: 12px solid rgba(35, 190, 100, 0.9)
+    }
+
 
 .sub-titulo {
   font-size: 1.2rem;
@@ -202,6 +209,54 @@
   font-size: 16px;
   font-weight: 500;
   outline-offset: 2px;
+  text-align: center;
+}
+
+.conta-submit-btn{
+
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgb(0, 190, 120);
+  color: rgb(18, 18, 18);
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.conta-submit-btn:hover{
+    transform: scale(1.03);
+    background-color: rgb(0, 140, 80, 0.5);
+
+}
+
+.sobre-user{
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: auto;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+}
+.sobre-mim{
+  font-size: 4rem;
+  padding: 12px;
+  color: rgb(235, 201, 251);
+  text-shadow: 0 0 5px rgb(135, 181, 130, 0.3);
+}
+.data-sobre{
+
+    background-color: rgb(235, 201, 251);
+    color: black;
+    max-width: 500px;
+    font-size: 1.5rem;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
 }
 
 .minha-pagina {
