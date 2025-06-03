@@ -2,12 +2,12 @@ import csv
 from flask import Flask, render_template, url_for, request, redirect
 import google.generativeai as genai
 import requests
-import time
 
 
-gemini_api_key = "api-key"
+
+gemini_api_key = "AIzaSyAaLsRpsgd6j_r-k3VbiUA_we7bPBY7s9w"
 genai.configure(api_key=gemini_api_key)
-model = genai.GenerativeModel("gemini-1.5-pro-latest")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 app = Flask(__name__)
 
@@ -90,6 +90,7 @@ rotas_validas = {
     "traexc": "/traexc",
     "bibliotecas": "/bibliotecas",
     "datanalise": "/datanalise",
+    "conta": "/conta",
     "ia": "/ia"
 }
 
@@ -198,34 +199,11 @@ def trocar_termo():
     return redirect(url_for('glossario'))
 
 def gerar_resposta_gemini(prompt):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={gemini_api_key}"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = {
-        "contents": [
-            {
-                "parts": [
-                    {
-                        "text": prompt
-                    }
-                ]
-            }
-        ]
-    }
-
     try:
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()
-        resposta_json = response.json()
-        return resposta_json["candidates"][0]["content"]["parts"][0]["text"]
-
-    except requests.exceptions.HTTPError as errh:
-        if response.status_code == 429:
-            return "Você passou do limite de perguntas, espere um pouco..."
-        return f"Erro HTTP: {errh}"
+        response = model.generate_content(prompt)
+        return response.text
     except Exception as e:
-        return f"Ocorreu um erro inesperado: {e}"
+        return f"Erro ao gerar resposta: {e}"
 
 @app.route('/ia', methods=['GET', 'POST'])
 def ia():
